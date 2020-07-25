@@ -351,5 +351,4 @@ class MultilineContainers:
                 self.check_for_js101(index, line)
                 self.check_for_js102(index, line)
 
-        for e in self.errors:
-            yield e
+        return self.errors
