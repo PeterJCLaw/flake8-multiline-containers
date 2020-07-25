@@ -29,12 +29,12 @@ ONLY_COMMENTS_STRING = '__only_comments__'
 FUNCTION_STRING = '__func__'
 
 
-class ErrorCodes(enum.Enum):
+class ErrorCode(enum.Enum):
     JS101 = "Multi-line container not broken after opening character"
     JS102 = "Multi-line container does not close on same column as opening"
 
 
-def _error(line_number: int, column: int, error_code: ErrorCodes) -> tuple:
+def _error(line_number: int, column: int, error_code: ErrorCode) -> tuple:
     """Format error report such that it's usable by flake8's reporting."""
     return (line_number, column, f'{error_code.name} {error_code.value}', None)
 
@@ -138,7 +138,7 @@ class MultilineContainers:
         close_character: str,
         line_number: int,
         line: str,
-        error_code: ErrorCodes,
+        error_code: ErrorCode,
     ):
         """Implementation for JS101.
 
@@ -226,7 +226,7 @@ class MultilineContainers:
         close_character: str,
         line_number: int,
         line: str,
-        error_code: ErrorCodes,
+        error_code: ErrorCode,
     ):
         """Implementation for JS102.
 
@@ -277,9 +277,9 @@ class MultilineContainers:
         And the container isn't closed on the same line
         Then the line should break after the opening brackets
         """
-        self._check_opening('{', '}', line_number, line, ErrorCodes.JS101)
-        self._check_opening('[', ']', line_number, line, ErrorCodes.JS101)
-        self._check_opening('(', ')', line_number, line, ErrorCodes.JS101)
+        self._check_opening('{', '}', line_number, line, ErrorCode.JS101)
+        self._check_opening('[', ']', line_number, line, ErrorCode.JS101)
+        self._check_opening('(', ')', line_number, line, ErrorCode.JS101)
 
     def check_for_js102(self, line_number: int, line: str):
         """Validate JS102 for a single line.
@@ -289,9 +289,9 @@ class MultilineContainers:
         Then the closing character must be on the same column as the
         opening line
         """
-        self._check_closing('{', '}', line_number, line, ErrorCodes.JS102)
-        self._check_closing('[', ']', line_number, line, ErrorCodes.JS102)
-        self._check_closing('(', ')', line_number, line, ErrorCodes.JS102)
+        self._check_closing('{', '}', line_number, line, ErrorCode.JS102)
+        self._check_closing('[', ']', line_number, line, ErrorCode.JS102)
+        self._check_closing('(', ')', line_number, line, ErrorCode.JS102)
 
     def docstring_status(self, line: str, quote: str, last_status: int) -> int:
         """Check if a line is part of a docstring.
