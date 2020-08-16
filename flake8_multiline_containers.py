@@ -145,7 +145,12 @@ class Span:
         start_tokens = tokens[self_start_idx:end_idx]
         next_token = get_next_token(start_tokens)
 
-        return bool(next_token and next_token.start[0] != self_start_line)
+        if not next_token:
+            # If there isn't a next token then we treat this like a suitable
+            # line break being present.
+            return True
+
+        return next_token.start[0] != self_start_line
 
     def end_line_is_broken(self, tokens: Sequence[TokenInfo]) -> bool:
         self_end_line, _ = self.range.end_pos
@@ -160,7 +165,12 @@ class Span:
         end_tokens = tokens[start_idx:self_end_idx]
         prev_token = get_next_token(reversed(end_tokens))
 
-        return bool(prev_token and prev_token.start[0] != self_end_line)
+        if not prev_token:
+            # If there isn't a previous token then we treat this like a suitable
+            # line break being present.
+            return True
+
+        return prev_token.start[0] != self_end_line
 
     def end_col_matches_start_col(self, tokens: Sequence[TokenInfo]) -> bool:
         start_line, start_col = self.range.start_pos
