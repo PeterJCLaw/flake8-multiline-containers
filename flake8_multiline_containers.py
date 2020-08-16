@@ -275,6 +275,9 @@ class MultilineContainers:
         if not span_summary.start_line_is_broken:
             yield _error(start_line, start_col, ErrorCode.JS101)
 
+        for child in span.children:
+            yield from self.analyse_span(child)
+
         if not span_summary.end_line_is_broken:
             yield _error(end_line, end_col, ErrorCode.PL102)
 
