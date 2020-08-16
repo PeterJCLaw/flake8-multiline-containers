@@ -21,7 +21,6 @@ setuptools.setup(
     py_modules=["flake8_multiline_containers"],
     install_requires=[
         "flake8 >= 3.7.9",
-        "attrs >= 19.3.0",
     ],
     entry_points={
         'flake8.extension': [

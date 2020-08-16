@@ -13,8 +13,6 @@ from typing import (
     Tuple,
 )
 
-import attr
-
 
 class ErrorCode(enum.Enum):
     JS101 = "Multi-line container not broken after opening character"
@@ -253,15 +251,16 @@ def collect_spans(ranges: List[Range]) -> List[Span]:
     return root_spans
 
 
-@attr.s(hash=False)
 class MultilineContainers:
     """Ensure the consistency of multiline dict and list style."""
 
     name = 'flake8_multiline_containers'
     version = '0.0.15'
 
-    logical_line = attr.ib(default=None)
-    tokens = attr.ib(default=None)  # type: Iterable[TokenInfo]
+    def __init__(self, logical_line: object, tokens: Iterable[TokenInfo]) -> None:
+        # Collect the generator we're given by flake8 into something we can
+        # random-access.
+        self.tokens = list(tokens)
 
     def analyse_span(self, span: Span) -> Iterator[Error]:
         (start_line, start_col) = span.range.start_pos
@@ -286,10 +285,6 @@ class MultilineContainers:
 
     def __iter__(self) -> Iterator[Error]:
         """Entry point for the plugin."""
-
-        # Collect the generator we're given by flake8 into something we can
-        # random-access.
-        self.tokens = list(self.tokens)
 
         spans = collect_spans(collect_ranges(self.tokens))
         print(pretty_spans(spans, prefix=''))
