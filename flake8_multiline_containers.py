@@ -8,6 +8,7 @@ import attr
 class ErrorCode(enum.Enum):
     JS101 = "Multi-line container not broken after opening character"
     JS102 = "Multi-line container does not close on same column as opening"
+    PL102 = "Multi-line container not broken before closing character"
 
 
 Error = Tuple[int, int, str, None]
@@ -203,7 +204,7 @@ class MultilineContainers:
             errors.append(_error(start_line, start_col, ErrorCode.JS101))
 
         if child_token_summary.on_end_line:
-            errors.append(_error(end_line, end_col, ErrorCode.JS101))
+            errors.append(_error(end_line, end_col, ErrorCode.PL102))
 
         return errors
 
