@@ -1,6 +1,15 @@
 import enum
+import token
 from tokenize import TokenInfo
-from typing import Iterable, List, NamedTuple, Optional, Sequence, Tuple
+from typing import (
+    Collection,
+    Iterable,
+    List,
+    NamedTuple,
+    Optional,
+    Sequence,
+    Tuple,
+)
 
 import attr
 
@@ -100,6 +109,16 @@ def collect_ranges(tokens: List[TokenInfo]) -> List[Range]:
     return ranges
 
 
+def get_next_token(
+    tokens: Iterable[TokenInfo],
+    ignore_types: Collection[int] = (token.NL, token.COMMENT, token.ENCODING),
+) -> Optional[TokenInfo]:
+    return next(
+        (x for x in tokens if x.type not in ignore_types),
+        None,
+    )
+
+
 SpanSummary = NamedTuple('SpanSummary', [
     ('start_line_is_broken', bool),
     ('end_line_is_broken', bool),
@@ -123,8 +142,9 @@ class Span:
         )
 
         start_tokens = tokens[self_start_idx:end_idx]
+        next_token = get_next_token(start_tokens)
 
-        return bool(start_tokens and start_tokens[0].string == '\n')
+        return bool(next_token and next_token.start[0] != self_start_line)
 
     def end_line_is_broken(self, tokens: Sequence[TokenInfo]) -> bool:
         self_end_line, _ = self.range.end_pos
@@ -137,11 +157,9 @@ class Span:
         )
 
         end_tokens = tokens[start_idx:self_end_idx]
+        prev_token = get_next_token(reversed(end_tokens))
 
-        return bool(
-            end_tokens and
-            end_tokens[-1].end[0] != self_end_line
-        )
+        return bool(prev_token and prev_token.start[0] != self_end_line)
 
     def end_col_matches_start_col(self, tokens: Sequence[TokenInfo]) -> bool:
         start_line, start_col = self.range.start_pos
