@@ -257,10 +257,17 @@ class MultilineContainers:
     name = 'flake8_multiline_containers'
     version = '0.0.15'
 
-    def __init__(self, logical_line: object, tokens: Iterable[TokenInfo]) -> None:
+    def __init__(
+        self,
+        logical_line: object,
+        tokens: Iterable[TokenInfo],
+        debug: bool = False,
+    ) -> None:
         # Collect the generator we're given by flake8 into something we can
         # random-access.
         self.tokens = list(tokens)
+
+        self.debug = debug
 
     def analyse_span(self, span: Span) -> Iterator[Error]:
         (start_line, start_col) = span.range.start_pos
@@ -287,7 +294,9 @@ class MultilineContainers:
         """Entry point for the plugin."""
 
         spans = collect_spans(collect_ranges(self.tokens))
-        print(pretty_spans(spans, prefix=''))
+
+        if self.debug:
+            print(pretty_spans(spans, prefix=''))
 
         for span in spans:
             yield from self.analyse_span(span)
