@@ -13,6 +13,9 @@ from typing import (
     Tuple,
 )
 
+IGNORABLE_TOKEN_TYPES = (token.NL, token.COMMENT, token.ENCODING)
+WHITESPACE_TOKEN_TYPES = IGNORABLE_TOKEN_TYPES + (token.INDENT, token.NEWLINE)
+
 
 class ErrorCode(enum.Enum):
     JS101 = "Multi-line container not broken after opening character"
@@ -109,14 +112,18 @@ def collect_ranges(tokens: List[TokenInfo]) -> List[Range]:
     return ranges
 
 
+def filtered_tokens(
+    tokens: Iterable[TokenInfo],
+    ignore_types: Collection[int] = IGNORABLE_TOKEN_TYPES,
+) -> Iterator[TokenInfo]:
+    return (x for x in tokens if x.type not in ignore_types)
+
+
 def get_next_token(
     tokens: Iterable[TokenInfo],
-    ignore_types: Collection[int] = (token.NL, token.COMMENT, token.ENCODING),
+    ignore_types: Collection[int] = IGNORABLE_TOKEN_TYPES,
 ) -> Optional[TokenInfo]:
-    return next(
-        (x for x in tokens if x.type not in ignore_types),
-        None,
-    )
+    return next(filtered_tokens(tokens), None)
 
 
 SpanSummary = NamedTuple('SpanSummary', [
@@ -184,7 +191,10 @@ class Span:
         preceding_tokens = tokens[:self.range.start_idx]
 
         if preceding_tokens:
-            for tok in reversed(preceding_tokens):
+            for tok in filtered_tokens(
+                reversed(preceding_tokens),
+                ignore_types=WHITESPACE_TOKEN_TYPES,
+            ):
                 line, col = tok.start
                 if line == start_line:
                     start_col = col
