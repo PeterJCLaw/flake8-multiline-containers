@@ -225,7 +225,7 @@ class MultilineContainers:
         if not span_summary.end_line_is_broken:
             errors.append(_error(end_line, end_col, ErrorCode.PL102))
 
-        if not span_summary.end_col_matches_start_col:
+        elif not span_summary.end_col_matches_start_col:
             errors.append(_error(end_line, end_col, ErrorCode.JS102))
 
         return errors
