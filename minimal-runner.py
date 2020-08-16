@@ -21,7 +21,7 @@ def main(args: argparse.Namespace) -> None:
 
     for path in args.files:
         tokens = tokenize.tokenize(io.BytesIO(path.read_bytes()).readline)
-        checker = MultilineContainers(tokens=tokens, logical_line=None, debug=True)
+        checker = MultilineContainers(file_tokens=list(tokens), tree=None, debug=True)
         pprint.pprint(list(checker))
 
     print(time.time() - start)

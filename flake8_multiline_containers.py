@@ -259,13 +259,13 @@ class MultilineContainers:
 
     def __init__(
         self,
-        logical_line: object,
-        tokens: Iterable[TokenInfo],
+        # We don't actually want the AST, however this is needed to indicate to
+        # flake8 that we're a whole-file plugin and to register us properly.
+        tree: object,
+        file_tokens: List[TokenInfo],
         debug: bool = False,
     ) -> None:
-        # Collect the generator we're given by flake8 into something we can
-        # random-access.
-        self.tokens = list(tokens)
+        self.tokens = file_tokens
 
         self.debug = debug
 
