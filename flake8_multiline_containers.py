@@ -153,8 +153,7 @@ class Span:
 
         return next_token.start[0] != self_start_line
 
-    def end_line_is_broken(self, tokens: Sequence[TokenInfo]) -> bool:
-        self_end_line, _ = self.range.end_pos
+    def get_end_tokens(self, tokens: Sequence[TokenInfo]) -> Sequence[TokenInfo]:
         self_end_idx = self.range.end_idx
 
         # Add 1 so we don't pick up the actual start token
@@ -164,7 +163,12 @@ class Span:
             else self.range.start_idx
         ) + 1
 
-        end_tokens = tokens[start_idx:self_end_idx]
+        return tokens[start_idx:self_end_idx]
+
+    def end_line_is_broken(self, tokens: Sequence[TokenInfo]) -> bool:
+        self_end_line, _ = self.range.end_pos
+
+        end_tokens = self.get_end_tokens(tokens)
         prev_token = get_next_token(reversed(end_tokens))
 
         if not prev_token:
@@ -187,6 +191,12 @@ class Span:
                     start_col = col
                 else:
                     break
+
+        end_tokens = self.get_end_tokens(tokens)
+        if not end_tokens:
+            # If there are no preceding tokens on our end line then that
+            # indicates we're hugging another span, which is fine.
+            return True
 
         return start_col == end_col
 
