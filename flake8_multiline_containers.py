@@ -97,8 +97,8 @@ def collect_ranges(tokens: List[TokenInfo]) -> List[Range]:
 
 
 ChildTokenSummary = NamedTuple('ChildTokenSummary', [
-    ('on_start_line', Optional[List[TokenInfo]]),
-    ('on_end_line', Optional[List[TokenInfo]]),
+    ('on_start_line', bool),
+    ('on_end_line', bool),
 ])
 
 
