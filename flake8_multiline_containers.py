@@ -1,4 +1,5 @@
 import enum
+import textwrap
 import token
 from tokenize import TokenInfo
 from typing import (
@@ -192,6 +193,18 @@ class Span:
         )
 
 
+def pretty_spans(spans: Iterable[Span], *, prefix: str = '    ') -> str:
+    return textwrap.indent('\n'.join(pretty_span(x) for x in spans), prefix)
+
+
+def pretty_span(span: Span) -> str:
+    return 'Span: {!r} - {!r}{}'.format(
+        span.range.start_pos,
+        span.range.end_pos,
+        ':\n' + pretty_spans(span.children) if span.children else '',
+    )
+
+
 def collect_spans(ranges: List[Range]) -> List[Span]:
     root_spans = []  # type: List[Span]
 
@@ -256,7 +269,7 @@ class MultilineContainers:
         self.tokens = list(self.tokens)
 
         spans = collect_spans(collect_ranges(self.tokens))
-        print(spans)
+        print(pretty_spans(spans, prefix=''))
 
         for span in spans:
             yield from self.analyse_span(span)
