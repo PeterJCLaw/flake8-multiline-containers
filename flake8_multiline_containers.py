@@ -189,8 +189,6 @@ class MultilineContainers:
     logical_line = attr.ib(default=None)
     tokens = attr.ib(default=None)  # type: Iterable[TokenInfo]
 
-    errors = attr.ib(factory=list)
-
     def analyse_span(self, span: Span) -> List[Error]:
         (start_line, start_col) = span.range.start_pos
         (end_line, end_col) = span.range.end_pos
@@ -212,7 +210,12 @@ class MultilineContainers:
     def __iter__(self):
         """Entry point for the plugin."""
 
+        # Collect the generator we're given by flake8 into something we can
+        # random-access.
+        self.tokens = list(self.tokens)
+
         spans = collect_spans(collect_ranges(self.tokens))
         print(spans)
 
-        return iter(self.errors)
+        for span in spans:
+            yield from self.analyse_span(span)
