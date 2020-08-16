@@ -1,4 +1,6 @@
 import enum
+from tokenize import TokenInfo
+from typing import Iterable, List, NamedTuple, Optional, Sequence, Tuple
 
 import attr
 
@@ -104,7 +106,7 @@ class Span:
         self.range = range_
         self.children = children
 
-    def analyse_tokens(self, tokens: List[TokenInfo]) -> ChildTokenSummary:
+    def analyse_start(self, tokens: Sequence[TokenInfo]) -> bool:
         self_start_line, _ = self.range.start_pos
         self_start_idx = self.range.start_idx
 
@@ -116,6 +118,12 @@ class Span:
 
         start_tokens = tokens[self_start_idx:first_child_start_idx]
 
+        return bool(
+            start_tokens and
+            start_tokens[0].start[0] == self_start_line
+        )
+
+    def analyse_end(self, tokens: Sequence[TokenInfo]) -> bool:
         self_end_line, _ = self.range.end_pos
         self_end_idx = self.range.end_idx
 
@@ -127,9 +135,15 @@ class Span:
 
         end_tokens = tokens[first_child_end_idx:self_end_idx]
 
+        return bool(
+            end_tokens and
+            end_tokens[-1].end[0] == self_end_line
+        )
+
+    def analyse_tokens(self, tokens: List[TokenInfo]) -> ChildTokenSummary:
         return ChildTokenSummary(
-            bool(start_tokens and start_tokens[0].start[0] == self_start_line),
-            bool(end_tokens and end_tokens[-1].end[0] == self_end_line),
+            self.analyse_start(tokens),
+            self.analyse_end(tokens),
         )
 
     def __repr__(self) -> str:
