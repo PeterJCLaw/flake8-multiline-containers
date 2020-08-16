@@ -46,6 +46,10 @@ class Range:
     def end_pos(self) -> Tuple[int, int]:
         return self._end.end
 
+    @property
+    def end_start_pos(self) -> Tuple[int, int]:
+        return self._end.start
+
     def is_before(self, other: 'Range') -> bool:
         return self.end_pos < other.start_pos
 
@@ -99,6 +103,7 @@ def collect_ranges(tokens: List[TokenInfo]) -> List[Range]:
 ChildTokenSummary = NamedTuple('ChildTokenSummary', [
     ('on_start_line', bool),
     ('on_end_line', bool),
+    ('end_line_bad_col', bool),
 ])
 
 
@@ -141,10 +146,27 @@ class Span:
             end_tokens[-1].end[0] == self_end_line
         )
 
+    def analyse_end_col(self, tokens: Sequence[TokenInfo]) -> bool:
+        start_line, start_col = self.range.start_pos
+        _, end_col = self.range.end_start_pos
+
+        preceding_tokens = tokens[:self.range.start_idx]
+
+        if preceding_tokens:
+            for tok in reversed(preceding_tokens):
+                line, col = tok.start
+                if line == start_line:
+                    start_col = col
+                else:
+                    break
+
+        return start_col != end_col
+
     def analyse_tokens(self, tokens: List[TokenInfo]) -> ChildTokenSummary:
         return ChildTokenSummary(
             self.analyse_start(tokens),
             self.analyse_end(tokens),
+            self.analyse_end_col(tokens),
         )
 
     def __repr__(self) -> str:
@@ -205,6 +227,9 @@ class MultilineContainers:
 
         if child_token_summary.on_end_line:
             errors.append(_error(end_line, end_col, ErrorCode.PL102))
+
+        if child_token_summary.end_line_bad_col:
+            errors.append(_error(end_line, end_col, ErrorCode.JS102))
 
         return errors
 
