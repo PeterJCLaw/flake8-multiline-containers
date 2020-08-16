@@ -134,6 +134,7 @@ class Span:
 
     def start_line_is_broken(self, tokens: Sequence[TokenInfo]) -> bool:
         self_start_line, _ = self.range.start_pos
+        # Add 1 so we don't pick up our actual start token
         self_start_idx = self.range.start_idx + 1
 
         end_idx = (
@@ -156,11 +157,12 @@ class Span:
         self_end_line, _ = self.range.end_pos
         self_end_idx = self.range.end_idx
 
+        # Add 1 so we don't pick up the actual start token
         start_idx = (
             self.children[-1].range.end_idx
             if self.children
             else self.range.start_idx
-        )
+        ) + 1
 
         end_tokens = tokens[start_idx:self_end_idx]
         prev_token = get_next_token(reversed(end_tokens))
