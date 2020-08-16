@@ -116,13 +116,13 @@ class Span:
         self_start_line, _ = self.range.start_pos
         self_start_idx = self.range.start_idx
 
-        first_child_start_idx = (
+        end_idx = (
             self.children[0].range.start_idx
             if self.children
-            else None
+            else self.range.end_idx
         )
 
-        start_tokens = tokens[self_start_idx:first_child_start_idx]
+        start_tokens = tokens[self_start_idx:end_idx]
 
         return bool(
             start_tokens and
@@ -133,13 +133,13 @@ class Span:
         self_end_line, _ = self.range.end_pos
         self_end_idx = self.range.end_idx
 
-        first_child_end_idx = (
-            self.children[0].range.end_idx
+        start_idx = (
+            self.children[-1].range.end_idx
             if self.children
-            else None
+            else self.range.start_idx
         )
 
-        end_tokens = tokens[first_child_end_idx:self_end_idx]
+        end_tokens = tokens[start_idx:self_end_idx]
 
         return bool(
             end_tokens and
