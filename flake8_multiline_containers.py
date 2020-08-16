@@ -5,6 +5,7 @@ from tokenize import TokenInfo
 from typing import (
     Collection,
     Iterable,
+    Iterator,
     List,
     NamedTuple,
     Optional,
@@ -262,7 +263,7 @@ class MultilineContainers:
     logical_line = attr.ib(default=None)
     tokens = attr.ib(default=None)  # type: Iterable[TokenInfo]
 
-    def analyse_span(self, span: Span) -> List[Error]:
+    def analyse_span(self, span: Span) -> Iterator[Error]:
         (start_line, start_col) = span.range.start_pos
         (end_line, end_col) = span.range.end_pos
 
@@ -271,19 +272,16 @@ class MultilineContainers:
 
         span_summary = span.analyse_tokens(self.tokens)
 
-        errors = []
         if not span_summary.start_line_is_broken:
-            errors.append(_error(start_line, start_col, ErrorCode.JS101))
+            yield _error(start_line, start_col, ErrorCode.JS101)
 
         if not span_summary.end_line_is_broken:
-            errors.append(_error(end_line, end_col, ErrorCode.PL102))
+            yield _error(end_line, end_col, ErrorCode.PL102)
 
         elif not span_summary.end_col_matches_start_col:
-            errors.append(_error(end_line, end_col, ErrorCode.JS102))
+            yield _error(end_line, end_col, ErrorCode.JS102)
 
-        return errors
-
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Error]:
         """Entry point for the plugin."""
 
         # Collect the generator we're given by flake8 into something we can
