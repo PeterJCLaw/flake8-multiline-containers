@@ -100,10 +100,10 @@ def collect_ranges(tokens: List[TokenInfo]) -> List[Range]:
     return ranges
 
 
-ChildTokenSummary = NamedTuple('ChildTokenSummary', [
-    ('on_start_line', bool),
-    ('on_end_line', bool),
-    ('end_line_bad_col', bool),
+SpanSummary = NamedTuple('SpanSummary', [
+    ('start_line_is_broken', bool),
+    ('end_line_is_broken', bool),
+    ('end_col_matches_start_col', bool),
 ])
 
 
@@ -112,9 +112,9 @@ class Span:
         self.range = range_
         self.children = children
 
-    def analyse_start(self, tokens: Sequence[TokenInfo]) -> bool:
+    def start_line_is_broken(self, tokens: Sequence[TokenInfo]) -> bool:
         self_start_line, _ = self.range.start_pos
-        self_start_idx = self.range.start_idx
+        self_start_idx = self.range.start_idx + 1
 
         end_idx = (
             self.children[0].range.start_idx
@@ -124,12 +124,9 @@ class Span:
 
         start_tokens = tokens[self_start_idx:end_idx]
 
-        return bool(
-            start_tokens and
-            start_tokens[0].start[0] == self_start_line
-        )
+        return bool(start_tokens and start_tokens[0].string == '\n')
 
-    def analyse_end(self, tokens: Sequence[TokenInfo]) -> bool:
+    def end_line_is_broken(self, tokens: Sequence[TokenInfo]) -> bool:
         self_end_line, _ = self.range.end_pos
         self_end_idx = self.range.end_idx
 
@@ -143,10 +140,10 @@ class Span:
 
         return bool(
             end_tokens and
-            end_tokens[-1].end[0] == self_end_line
+            end_tokens[-1].end[0] != self_end_line
         )
 
-    def analyse_end_col(self, tokens: Sequence[TokenInfo]) -> bool:
+    def end_col_matches_start_col(self, tokens: Sequence[TokenInfo]) -> bool:
         start_line, start_col = self.range.start_pos
         _, end_col = self.range.end_start_pos
 
@@ -160,13 +157,13 @@ class Span:
                 else:
                     break
 
-        return start_col != end_col
+        return start_col == end_col
 
-    def analyse_tokens(self, tokens: List[TokenInfo]) -> ChildTokenSummary:
-        return ChildTokenSummary(
-            self.analyse_start(tokens),
-            self.analyse_end(tokens),
-            self.analyse_end_col(tokens),
+    def analyse_tokens(self, tokens: List[TokenInfo]) -> SpanSummary:
+        return SpanSummary(
+            self.start_line_is_broken(tokens),
+            self.end_line_is_broken(tokens),
+            self.end_col_matches_start_col(tokens),
         )
 
     def __repr__(self) -> str:
@@ -219,16 +216,16 @@ class MultilineContainers:
         if start_line == end_line:
             return []
 
-        child_token_summary = span.analyse_tokens(self.tokens)
+        span_summary = span.analyse_tokens(self.tokens)
 
         errors = []
-        if child_token_summary.on_start_line:
+        if not span_summary.start_line_is_broken:
             errors.append(_error(start_line, start_col, ErrorCode.JS101))
 
-        if child_token_summary.on_end_line:
+        if not span_summary.end_line_is_broken:
             errors.append(_error(end_line, end_col, ErrorCode.PL102))
 
-        if child_token_summary.end_line_bad_col:
+        if not span_summary.end_col_matches_start_col:
             errors.append(_error(end_line, end_col, ErrorCode.JS102))
 
         return errors
