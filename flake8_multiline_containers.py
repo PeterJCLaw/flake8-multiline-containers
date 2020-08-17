@@ -157,14 +157,16 @@ class Span:
         return self.range.is_single_line
 
     def start_line_is_broken(self, tokens: Sequence[TokenInfo]) -> bool:
+        if self.children:
+            first_child = self.children[0]
+            if first_child.start_line == self.start_line:
+                # If the first child starts on the start line, then we defer to
+                # whether it has a break or not.
+                return not first_child.is_single_line
+
         # Add 1 so we don't pick up our actual start token
         self_start_idx = self.range.start_idx + 1
-
-        end_idx = (
-            self.children[0].range.start_idx
-            if self.children and not self.children[0].is_single_line
-            else self.range.end_idx
-        )
+        end_idx = self.range.end_idx
 
         start_tokens = tokens[self_start_idx:end_idx]
         next_token = get_next_token(start_tokens)
@@ -189,6 +191,13 @@ class Span:
         return tokens[start_idx:self_end_idx]
 
     def end_line_is_broken(self, tokens: Sequence[TokenInfo]) -> bool:
+        if self.children:
+            last_child = self.children[-1]
+            if last_child.end_line == self.end_line:
+                # If the last child ends on the last line, then we defer to
+                # whether it has a break or not.
+                return not last_child.is_single_line
+
         end_tokens = self.get_end_tokens(tokens)
         prev_token = get_next_token(reversed(end_tokens))
 
