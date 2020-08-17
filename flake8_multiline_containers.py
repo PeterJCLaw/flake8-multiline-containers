@@ -145,11 +145,18 @@ class Span:
         self.children = children
 
     @property
+    def start_line(self) -> int:
+        return self.range.start_pos[0]
+
+    @property
+    def end_line(self) -> int:
+        return self.range.end_pos[0]
+
+    @property
     def is_single_line(self) -> bool:
         return self.range.is_single_line
 
     def start_line_is_broken(self, tokens: Sequence[TokenInfo]) -> bool:
-        self_start_line, _ = self.range.start_pos
         # Add 1 so we don't pick up our actual start token
         self_start_idx = self.range.start_idx + 1
 
@@ -167,7 +174,7 @@ class Span:
             # line break being present.
             return True
 
-        return next_token.start[0] != self_start_line
+        return next_token.start[0] != self.start_line
 
     def get_end_tokens(self, tokens: Sequence[TokenInfo]) -> Sequence[TokenInfo]:
         self_end_idx = self.range.end_idx
@@ -182,8 +189,6 @@ class Span:
         return tokens[start_idx:self_end_idx]
 
     def end_line_is_broken(self, tokens: Sequence[TokenInfo]) -> bool:
-        self_end_line, _ = self.range.end_pos
-
         end_tokens = self.get_end_tokens(tokens)
         prev_token = get_next_token(reversed(end_tokens))
 
@@ -192,7 +197,7 @@ class Span:
             # line break being present.
             return True
 
-        return prev_token.start[0] != self_end_line
+        return prev_token.start[0] != self.end_line
 
     def end_col_matches_start_col(self, tokens: Sequence[TokenInfo]) -> bool:
         start_line, start_col = self.range.start_pos
