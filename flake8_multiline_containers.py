@@ -62,6 +62,12 @@ class Range:
     def end_start_pos(self) -> Tuple[int, int]:
         return self._end.start
 
+    @property
+    def is_single_line(self) -> bool:
+        start_line, _ = self.start_pos
+        end_line, _ = self.end_pos
+        return start_line == end_line
+
     def is_before(self, other: 'Range') -> bool:
         return self.end_pos < other.start_pos
 
@@ -137,6 +143,10 @@ class Span:
     def __init__(self, range_: Range, children: 'List[Span]'):
         self.range = range_
         self.children = children
+
+    @property
+    def is_single_line(self) -> bool:
+        return self.range.is_single_line
 
     def start_line_is_broken(self, tokens: Sequence[TokenInfo]) -> bool:
         self_start_line, _ = self.range.start_pos
@@ -280,11 +290,11 @@ class MultilineContainers:
         self.debug = debug
 
     def analyse_span(self, span: Span) -> Iterator[Error]:
+        if span.is_single_line:
+            return
+
         (start_line, start_col) = span.range.start_pos
         (end_line, end_col) = span.range.end_pos
-
-        if start_line == end_line:
-            return []
 
         span_summary = span.analyse_tokens(self.tokens)
 
