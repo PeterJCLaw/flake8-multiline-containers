@@ -9,7 +9,7 @@ foo = {'a': {
 }
 }
 
-# Wrong: PL101
+# Wrong: PL101, PL110
 foo = {'a': {'b':
         1
     }

@@ -1,7 +1,8 @@
-# Right: Extra whitespace doesn't cause function to be registered as a tuple
+# Wrong: PL101, PL102
 bizbat ( "Hello",
          "World")
 
+# Wrong: PL101, PL102
 bizbat        ( "Hello",
          "World")
 
@@ -13,12 +14,12 @@ func(
     ),
 )
 
-# Right: Nested function call is ignored
+# Right: triple quoted string hugging is allowed
 bizbat(bazbin("""
 """))
 
 
-# Right: Nested function call is ignored
+# Wrong: PL101, PL102
 bizbat(bazbin('a',
 'b'))
 
@@ -39,22 +40,22 @@ foo = bizbat(
 )
 
 
-# Wrong: JS103
+# Wrong: PL101
 foo = bizbat('hello',
        'world',
 )
 
-# Wrong: JS103
+# Wrong: PL102
 foo = bizbat(
     'hello', 'world')
 
 
-# Wrong: JS103, JS104
+# Wrong: PL101, PL102
 foo = bizbat('hello',
        'world')
 
 
-# Wrong: JS103, JS104
+# Wrong: PL101, PL110
 foo = bizbat('hello',
        'world',
       )
@@ -70,7 +71,7 @@ foo = bizbat(
 )
 
 
-# Wrong: JS103
+# Wrong (TODO): Should also error about the double trailer
 # Function call with tuple inside
 foo = bizbat((
     'hello',

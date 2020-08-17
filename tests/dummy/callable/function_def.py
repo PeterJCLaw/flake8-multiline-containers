@@ -1,9 +1,10 @@
-# Right: Extra whitespace doesn't cause function to be registered as a tuple
+# Wrong: PL101
 def foo (a,
          b,
          c,
 ): pass
 
+# Wrong: PL101
 def foo     (a,
          b,
          c,
@@ -26,7 +27,7 @@ def barb(a, b, c=('Hello', 'World')):
 
 
 # Function with keyword argument that is a tuple.
-# Right
+# Wrong(TODO): closing paren should hug
 def baro(a, b, c=(
     'Hello', 'World',
 ),
@@ -43,7 +44,8 @@ def biz(
     pass
 
 
-# Wrong: Function with arguments, break after first argument
+# Wrong: PL101, PL110
+# Function with arguments, break after first argument
 def baz(a,
         b,
         c,
@@ -51,7 +53,8 @@ def baz(a,
     pass
 
 
-# Wrong: Function with arguments, break after first argument,
+# Wrong: PL101, PL102
+#Function with arguments, break after first argument,
 # closing bracket after last argument
 def bal(a,
         b,

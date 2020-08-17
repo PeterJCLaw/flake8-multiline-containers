@@ -40,4 +40,4 @@ def test_pl110_multiple_opening(multiple_opening_file_path):
     p = os.path.abspath(multiple_opening_file_path)
     r = style_guide.check_files([p])
 
-    assert 0 == r.total_errors
+    assert 1 == r.total_errors

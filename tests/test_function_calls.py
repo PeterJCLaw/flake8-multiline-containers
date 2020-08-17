@@ -18,7 +18,18 @@ def test_pl101_function_calls(function_calls_file_path):
     p = os.path.abspath(function_calls_file_path)
     r = style_guide.check_files([p])
 
-    assert 9 == r.total_errors
+    assert 6 == r.total_errors
+
+
+def test_pl102_function_calls(function_calls_file_path):
+    style_guide = flake8.get_style_guide(
+        select=['PL102'],
+    )
+
+    p = os.path.abspath(function_calls_file_path)
+    r = style_guide.check_files([p])
+
+    assert 5 == r.total_errors
 
 
 def test_pl110_function_calls(function_calls_file_path):
@@ -29,4 +40,4 @@ def test_pl110_function_calls(function_calls_file_path):
     p = os.path.abspath(function_calls_file_path)
     r = style_guide.check_files([p])
 
-    assert 2 == r.total_errors
+    assert 1 == r.total_errors
