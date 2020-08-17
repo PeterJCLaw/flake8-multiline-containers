@@ -155,7 +155,7 @@ class Span:
 
         end_idx = (
             self.children[0].range.start_idx
-            if self.children
+            if self.children and not self.children[0].is_single_line
             else self.range.end_idx
         )
 
@@ -175,7 +175,7 @@ class Span:
         # Add 1 so we don't pick up the actual start token
         start_idx = (
             self.children[-1].range.end_idx
-            if self.children
+            if self.children and not self.children[-1].is_single_line
             else self.range.start_idx
         ) + 1
 
