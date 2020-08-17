@@ -11,7 +11,6 @@ def class_def_file_path(dummy_file_path):
 
 
 def test_js101_class_def(class_def_file_path):
-    """Class definition should not trigger JS101."""
     style_guide = flake8.get_style_guide(
         select=['JS101'],
     )
@@ -19,11 +18,10 @@ def test_js101_class_def(class_def_file_path):
     p = os.path.abspath(class_def_file_path)
     r = style_guide.check_files([p])
 
-    assert 0 == r.total_errors
+    assert 1 == r.total_errors
 
 
 def test_js102_class_def(class_def_file_path):
-    """Class definition should not trigger JS102."""
     style_guide = flake8.get_style_guide(
         select=['JS102'],
     )
@@ -31,4 +29,4 @@ def test_js102_class_def(class_def_file_path):
     p = os.path.abspath(class_def_file_path)
     r = style_guide.check_files([p])
 
-    assert 0 == r.total_errors
+    assert 1 == r.total_errors

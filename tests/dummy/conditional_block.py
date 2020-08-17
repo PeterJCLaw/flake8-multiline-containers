@@ -27,6 +27,17 @@ elif (
     pass
 
 
+if (
+    False or True
+   ):
+    pass
+
+elif (
+    False or True
+     ):
+    pass
+
+
 # Nested
 if (True or (False or True)): pass
 

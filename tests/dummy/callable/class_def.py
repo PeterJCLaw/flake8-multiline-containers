@@ -23,3 +23,16 @@ class Foobar(A,
              C,
 ):
     pass
+
+class Foobar(
+    A,
+    B,
+    C):
+    pass
+
+class Foobar(
+    A,
+    B,
+    C,
+    ):
+    pass

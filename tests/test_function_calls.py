@@ -10,8 +10,7 @@ def function_calls_file_path(dummy_file_path):
     return f'{dummy_file_path}/callable/function_call.py'
 
 
-def test_js101_function_calls_ignored(function_calls_file_path):
-    """Function calls should not trigger JS101."""
+def test_js101_function_calls(function_calls_file_path):
     style_guide = flake8.get_style_guide(
         select=['JS101'],
     )
@@ -19,11 +18,10 @@ def test_js101_function_calls_ignored(function_calls_file_path):
     p = os.path.abspath(function_calls_file_path)
     r = style_guide.check_files([p])
 
-    assert 0 == r.total_errors
+    assert 9 == r.total_errors
 
 
-def test_js102_function_calls_ignored(function_calls_file_path):
-    """Function calls should not trigger JS102."""
+def test_js102_function_calls(function_calls_file_path):
     style_guide = flake8.get_style_guide(
         select=['JS102'],
     )
@@ -31,4 +29,4 @@ def test_js102_function_calls_ignored(function_calls_file_path):
     p = os.path.abspath(function_calls_file_path)
     r = style_guide.check_files([p])
 
-    assert 0 == r.total_errors
+    assert 2 == r.total_errors

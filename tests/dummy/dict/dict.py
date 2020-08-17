@@ -36,12 +36,12 @@ foo = {'a': 'hello',
 }
 
 
-# Wrong: JS102
+# Wrong: PL102
 foo = {
     'a': 'hello', 'b': 'world'}
 
 
-# Wrong: JS101, JS102
+# Wrong: JS101, PL102
 foo = {'a': 'hello',
        'b': 'world'}
 
@@ -72,7 +72,7 @@ foo = bizbat(
     True,
 )
 
-# Wrong: JS101, JS102
+# Wrong: JS101, PL102
 foo = bizbat(
     {'a': 'Hello',
      'b': 'World'},

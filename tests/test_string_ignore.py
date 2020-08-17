@@ -57,6 +57,20 @@ def test_js101_string_brackets_ignore(string_brackets_file_path):
     assert 0 == r.total_errors
 
 
+def test_pl102_string_brackets_ignore(string_brackets_file_path):
+    """When opening and closing characters are in a string
+    Then the linter should not detect them.
+    """
+    style_guide = flake8.get_style_guide(
+        select=['PL102'],
+    )
+
+    p = os.path.abspath(string_brackets_file_path)
+    r = style_guide.check_files([p])
+
+    assert 1 == r.total_errors
+
+
 def test_js102_string_brackets_ignore(string_brackets_file_path):
     """When opening and closing characters are in a string
     Then the linter should not detect them.
@@ -68,4 +82,4 @@ def test_js102_string_brackets_ignore(string_brackets_file_path):
     p = os.path.abspath(string_brackets_file_path)
     r = style_guide.check_files([p])
 
-    assert 1 == r.total_errors
+    assert 0 == r.total_errors

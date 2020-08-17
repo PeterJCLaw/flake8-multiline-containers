@@ -20,12 +20,12 @@ foo = {'hello',
        'world',
 }
 
-# Wrong: JS102
+# Wrong: PL102
 foo = {
     'hello', 'world'}
 
 
-# Wrong: JS101, JS102
+# Wrong: JS101, PL102
 foo = {'hello',
        'world'}
 

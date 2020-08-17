@@ -1,10 +1,28 @@
-# Extremely Wrong: JS101
+# Right
+foo = {'a': {
+    'b': 1
+}}
+
+# Wrong (TODO): Should also error about the double trailer
 foo = {'a': {
     'b': 1
 }
 }
 
-# Extremely Wrong: JS101, JS102
+# Wrong: PL101
+foo = {'a': {'b':
+        1
+    }
+}
+
+# Wrong: PL101
+foo = {'a':
+    {
+        'b': 1
+    }
+}
+
+# Wrong: PL102
 foo = {'a': {
     'b': 1}
 }

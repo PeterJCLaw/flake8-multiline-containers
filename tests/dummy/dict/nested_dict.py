@@ -15,7 +15,7 @@ foo = {'a': {'one': 'hello'}, 'b': {'two': 'world'},
 }
 
 
-# Wrong: JS101, JS102
+# Wrong: JS101, PL102
 foo = {
     'a': {'x': 'hello', 'y': 'world'},
     'b': {'x': 'hello',
