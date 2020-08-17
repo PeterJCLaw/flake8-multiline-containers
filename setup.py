@@ -24,7 +24,7 @@ setuptools.setup(
     ],
     entry_points={
         'flake8.extension': [
-            'JS = flake8_multiline_containers:MultilineContainers',
+            'PL = flake8_multiline_containers:MultilineContainers',
         ],
     },
     classifiers=[

@@ -9,13 +9,13 @@ foo = {
 
 
 # Dict has child with a child dict
-# Wrong: JS101
+# Wrong: PL101
 foo = {'a': {'one': 'hello'}, 'b': {'two': 'world'},
        'c': {'three': 'hello'}, 'd': {'four': 'world'},
 }
 
 
-# Wrong: JS101, PL102
+# Wrong: PL101, PL102
 foo = {
     'a': {'x': 'hello', 'y': 'world'},
     'b': {'x': 'hello',
@@ -23,7 +23,7 @@ foo = {
 }
 
 
-# Wrong: JS102
+# Wrong: PL110
 foo = {
     'a': {'x': 'hello', 'y': 'world'},
     'b': {'x': 'hello', 'y': 'world'},

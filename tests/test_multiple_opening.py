@@ -10,9 +10,9 @@ def multiple_opening_file_path(dummy_file_path):
     return f'{dummy_file_path}/multiple_opening.py'
 
 
-def test_js101_multiple_opening(multiple_opening_file_path):
+def test_pl101_multiple_opening(multiple_opening_file_path):
     style_guide = flake8.get_style_guide(
-        select=['JS101'],
+        select=['PL101'],
     )
 
     p = os.path.abspath(multiple_opening_file_path)
@@ -22,10 +22,6 @@ def test_js101_multiple_opening(multiple_opening_file_path):
 
 
 def test_pl102_multiple_opening(multiple_opening_file_path):
-    """When a file has no blank line at EOF
-    And a container ends correctly on the last line
-    Then the linter should not detect an error.
-    """
     style_guide = flake8.get_style_guide(
         select=['PL102'],
     )
@@ -36,9 +32,9 @@ def test_pl102_multiple_opening(multiple_opening_file_path):
     assert 1 == r.total_errors
 
 
-def test_js102_multiple_opening(multiple_opening_file_path):
+def test_pl110_multiple_opening(multiple_opening_file_path):
     style_guide = flake8.get_style_guide(
-        select=['JS102'],
+        select=['PL110'],
     )
 
     p = os.path.abspath(multiple_opening_file_path)

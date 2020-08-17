@@ -1,12 +1,12 @@
 # Comments should be ignored entirely
 
-# Technically correct, but would fail JS102 if detected
+# Technically correct, but would fail PL110 if detected
 # 'foobar': {
 #     'foo': 'Hello',
 #     'bar': 'World',
 # },
 
-# JS101, but ignored
+# PL101, but ignored
 # 'foobar': { 'foo': 'Hello',
 #             'bar': 'World',
 # },

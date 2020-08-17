@@ -12,21 +12,21 @@ foo = (
 
 
 # tuple has child list that ends on same line as opening
-# Wrong: JS101
+# Wrong: PL101
 foo = (('earth', 'mars'),
        ('sun', 'moon'),
 )
 
 
 # tuple has child with a child tuple that ends on same line as opening
-# Wrong: JS101
+# Wrong: PL101
 foo = ({'a': 'hello', 'b': ('earth', 'mars')},
        {'c': 'good night', 'd': 'moon'},
 )
 
 
 # Nested tuple contains a container that doesn't break on the opening
-# Wrong: JS101, PL102
+# Wrong: PL101, PL102
 foo = (
     ('hello', 'world'),
     ('hello',
@@ -35,7 +35,7 @@ foo = (
 
 
 # Nested tuple closes on wrong column
-# Wrong: JS102
+# Wrong: PL110
 foo = (
     ('hello', 'world'),
     ('hello', 'world'),

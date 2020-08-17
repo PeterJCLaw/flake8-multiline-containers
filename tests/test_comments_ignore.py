@@ -10,10 +10,10 @@ def comments_file_path(dummy_file_path):
     return f'{dummy_file_path}/comments.py'
 
 
-def test_js101_comments_ignore(comments_file_path):
-    """Comment lines should not trigger JS101."""
+def test_pl101_comments_ignore(comments_file_path):
+    """Comment lines should not trigger PL101."""
     style_guide = flake8.get_style_guide(
-        select=['JS101'],
+        select=['PL101'],
     )
 
     p = os.path.abspath(comments_file_path)
@@ -22,10 +22,10 @@ def test_js101_comments_ignore(comments_file_path):
     assert 0 == r.total_errors
 
 
-def test_js102_comments_ignored(comments_file_path):
-    """Comment lines should not trigger JS102."""
+def test_pl110_comments_ignored(comments_file_path):
+    """Comment lines should not trigger PL110."""
     style_guide = flake8.get_style_guide(
-        select=['JS102'],
+        select=['PL110'],
     )
 
     p = os.path.abspath(comments_file_path)

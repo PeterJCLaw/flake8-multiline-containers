@@ -38,8 +38,9 @@ Rules
 ===== ====
 Code  Rule
 ===== ====
-JS101 Multi-line container not broken after opening character
-JS102 Multi-line container does not close on same column as opening
+PL101 Multi-line container not broken after opening character
+PL102 Multi-line container not broken before closing character
+PL110 Multi-line container does not close on same column as opening
 ===== ====
 
 Examples
@@ -63,18 +64,18 @@ Examples
   ]
 
 
-  # Wrong: JS101
+  # Wrong: PL101
   foo = {'a': 'hello',
          'b': 'world',
   }
 
 
-  # Wrong: JS101, JS102
+  # Wrong: PL101, PL102
   foo = {'a': 'hello',
          'b': 'world'}
 
 
-  # Wrong: JS101, JS102
+  # Wrong: PL101, PL110
   foo = {'hello',
          'world'
         }

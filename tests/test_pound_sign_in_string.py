@@ -10,10 +10,10 @@ def pound_file_path(dummy_file_path):
     return f'{dummy_file_path}/mixed.py'
 
 
-def test_js101_pound(pound_file_path):
+def test_pl101_pound(pound_file_path):
     """Pound signs in strings shouldn't be considered the start of comments."""
     style_guide = flake8.get_style_guide(
-        select=['JS101'],
+        select=['PL101'],
     )
 
     p = os.path.abspath(pound_file_path)
@@ -22,10 +22,10 @@ def test_js101_pound(pound_file_path):
     assert 0 == r.total_errors
 
 
-def test_js102_pound(pound_file_path):
+def test_pl110_pound(pound_file_path):
     """Pound signs in strings shouldn't be considered the start of comments."""
     style_guide = flake8.get_style_guide(
-        select=['JS102'],
+        select=['PL110'],
     )
 
     p = os.path.abspath(pound_file_path)

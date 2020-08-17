@@ -8,7 +8,7 @@ foo = {
 }
 
 
-# Wrong: JS101, PL102
+# Wrong: PL101, PL102
 foo = {
     {'hello', 'world'},
     {'hello',
@@ -16,7 +16,7 @@ foo = {
 }
 
 
-# Wrong: JS102
+# Wrong: PL110
 foo = {
     {'hello', 'world'},
     {'hello', 'world'},

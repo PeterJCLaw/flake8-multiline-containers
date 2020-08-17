@@ -2,7 +2,7 @@ if True:
     {
         1: 'test',
         2: 'promo',
-    }[1]  # JS102 on col 1 of this line
+    }[1]
 
 bad = ('foo',
        'bar')

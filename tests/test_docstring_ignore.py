@@ -16,7 +16,7 @@ def test_docstring_ignore(docstring_file_path):
     Code after a docstring should not be ignored.
     """
     style_guide = flake8.get_style_guide(
-        select=['JS101'],
+        select=['PL101'],
     )
 
     p = os.path.abspath(docstring_file_path)

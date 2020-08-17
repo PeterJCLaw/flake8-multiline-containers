@@ -10,9 +10,9 @@ def list_file_path(dummy_file_path):
     return f'{dummy_file_path}/list/list_comprehension.py'
 
 
-def test_js101_list_comprehension(list_file_path):
+def test_pl101_list_comprehension(list_file_path):
     style_guide = flake8.get_style_guide(
-        select=['JS101'],
+        select=['PL101'],
     )
 
     p = os.path.abspath(list_file_path)
@@ -21,9 +21,9 @@ def test_js101_list_comprehension(list_file_path):
     assert 0 == r.total_errors
 
 
-def test_js102_list_comprehension(list_file_path):
+def test_pl110_list_comprehension(list_file_path):
     style_guide = flake8.get_style_guide(
-        select=['JS102'],
+        select=['PL110'],
     )
 
     p = os.path.abspath(list_file_path)

@@ -25,9 +25,9 @@ def tuple_file_path(dummy_file_path):
     return f'{dummy_file_path}/tuple/nested_tuple.py'
 
 
-def test_js101_dict(dict_file_path):
+def test_pl101_dict(dict_file_path):
     style_guide = flake8.get_style_guide(
-        select=['JS101'],
+        select=['PL101'],
     )
 
     p = os.path.abspath(dict_file_path)
@@ -47,9 +47,9 @@ def test_pl102_dict(dict_file_path):
     assert 1 == r.total_errors
 
 
-def test_js102_dict(dict_file_path):
+def test_pl110_dict(dict_file_path):
     style_guide = flake8.get_style_guide(
-        select=['JS102'],
+        select=['PL110'],
     )
 
     p = os.path.abspath(dict_file_path)
@@ -58,9 +58,9 @@ def test_js102_dict(dict_file_path):
     assert 1 == r.total_errors
 
 
-def test_js101_list(list_file_path):
+def test_pl101_list(list_file_path):
     style_guide = flake8.get_style_guide(
-        select=['JS101'],
+        select=['PL101'],
     )
 
     p = os.path.abspath(list_file_path)
@@ -80,9 +80,9 @@ def test_pl102_list(list_file_path):
     assert 1 == r.total_errors
 
 
-def test_js102_list(list_file_path):
+def test_pl110_list(list_file_path):
     style_guide = flake8.get_style_guide(
-        select=['JS102'],
+        select=['PL110'],
     )
 
     p = os.path.abspath(list_file_path)
@@ -91,9 +91,9 @@ def test_js102_list(list_file_path):
     assert 1 == r.total_errors
 
 
-def test_js101_set(set_file_path):
+def test_pl101_set(set_file_path):
     style_guide = flake8.get_style_guide(
-        select=['JS101'],
+        select=['PL101'],
     )
 
     p = os.path.abspath(set_file_path)
@@ -113,9 +113,9 @@ def test_pl102_set(set_file_path):
     assert 1 == r.total_errors
 
 
-def test_js102_set(set_file_path):
+def test_pl110_set(set_file_path):
     style_guide = flake8.get_style_guide(
-        select=['JS102'],
+        select=['PL110'],
     )
 
     p = os.path.abspath(set_file_path)
@@ -124,9 +124,9 @@ def test_js102_set(set_file_path):
     assert 1 == r.total_errors
 
 
-def test_js101_tuple(tuple_file_path):
+def test_pl101_tuple(tuple_file_path):
     style_guide = flake8.get_style_guide(
-        select=['JS101'],
+        select=['PL101'],
     )
 
     p = os.path.abspath(tuple_file_path)
@@ -146,9 +146,9 @@ def test_pl102_tuple(tuple_file_path):
     assert 1 == r.total_errors
 
 
-def test_js102_tuple(tuple_file_path):
+def test_pl110_tuple(tuple_file_path):
     style_guide = flake8.get_style_guide(
-        select=['JS102'],
+        select=['PL110'],
     )
 
     p = os.path.abspath(tuple_file_path)

@@ -30,7 +30,7 @@ except KeyError:
     pass
 
 
-# Wrong: JS101
+# Wrong: PL101
 foo = {'a': 'hello',
        'b': 'world',
 }
@@ -41,12 +41,12 @@ foo = {
     'a': 'hello', 'b': 'world'}
 
 
-# Wrong: JS101, PL102
+# Wrong: PL101, PL102
 foo = {'a': 'hello',
        'b': 'world'}
 
 
-# Wrong: JS101, JS102
+# Wrong: PL101, PL110
 foo = {'a': 'hello',
        'b': 'world',
       }
@@ -72,7 +72,7 @@ foo = bizbat(
     True,
 )
 
-# Wrong: JS101, PL102
+# Wrong: PL101, PL102
 foo = bizbat(
     {'a': 'Hello',
      'b': 'World'},

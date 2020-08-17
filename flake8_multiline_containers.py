@@ -18,9 +18,9 @@ WHITESPACE_TOKEN_TYPES = IGNORABLE_TOKEN_TYPES + (token.INDENT, token.NEWLINE)
 
 
 class ErrorCode(enum.Enum):
-    JS101 = "Multi-line container not broken after opening character"
-    JS102 = "Multi-line container does not close on same column as opening"
+    PL101 = "Multi-line container not broken after opening character"
     PL102 = "Multi-line container not broken before closing character"
+    PL110 = "Multi-line container does not close on same column as opening"
 
 
 Error = Tuple[int, int, str, None]
@@ -299,7 +299,7 @@ class MultilineContainers:
         span_summary = span.analyse_tokens(self.tokens)
 
         if not span_summary.start_line_is_broken:
-            yield _error(start_line, start_col, ErrorCode.JS101)
+            yield _error(start_line, start_col, ErrorCode.PL101)
 
         for child in span.children:
             yield from self.analyse_span(child)
@@ -308,7 +308,7 @@ class MultilineContainers:
             yield _error(end_line, end_col, ErrorCode.PL102)
 
         elif not span_summary.end_col_matches_start_col:
-            yield _error(end_line, end_col, ErrorCode.JS102)
+            yield _error(end_line, end_col, ErrorCode.PL110)
 
     def __iter__(self) -> Iterator[Error]:
         """Entry point for the plugin."""
