@@ -105,6 +105,14 @@ def collect_ranges(tokens: List[TokenInfo]) -> List[Range]:
             looking_for = PARENS[token_info.string]
             continue
 
+        if token_info.type == token.STRING:
+            if token_info.start[0] != token_info.end[0]:
+                # Multi-line string
+                ranges.append(Range(
+                    (idx, token_info),
+                    (idx, token_info),
+                ))
+
         if token_info.string == looking_for:
             ranges.append(Range(
                 stack.pop(),
